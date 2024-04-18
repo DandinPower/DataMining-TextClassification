@@ -6,8 +6,12 @@ from argparse import ArgumentParser, Namespace
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
+from utils import text_preprocessing_pipeline
+
 ONLY_TTITLE_AND_TEXT_FLAG = 'only_title_and_text'
+CLEAN_ONLY_TTITLE_AND_TEXT_FLAG = 'clean_only_title_and_text'
 MERGE_ALL_FEATURE_TO_TEXT_FLAG = 'merge_all_feature_to_text'
+CLEAN_MERGE_ALL_FEATURE_TO_TEXT_FLAG = 'clean_merge_all_feature_to_text'
 
 def set_seed(seed: int):
     random.seed(seed)
@@ -42,29 +46,68 @@ class OnlyTitleAndText(ProcessedMethod):
     def process_test(self, data: Data) -> Data:
         data.processed_text = f'Review Title: {data.title};Review Content: {data.text}'
         return data
-
-class MergeAllFeatureToText(ProcessedMethod):
+    
+class CleanOnlyTitleAndText(ProcessedMethod):
     def process_train(self, data: Data) -> Data:
-        title_part = f'Review Title: {data.title}'
-        helpful_vote_part = f'How many people think this review is helpful: {data.helpful_vote}'
-        verified_purchase_part = 'Verified Purchase: Yes' if data.verified_purchase else 'Verified Purchase: No'
-        text_part = f'Review Content: {data.text}'
-        data.processed_text = f'{helpful_vote_part};{verified_purchase_part};{title_part};{text_part}'
+        title_text = text_preprocessing_pipeline(data.title)
+        text_text = text_preprocessing_pipeline(data.text)
+        data.processed_text = f'{title_text} [SEP] {text_text}'
         return data
 
     def process_test(self, data: Data) -> Data:
-        title_part = f'Review Title: {data.title}'
-        helpful_vote_part = f'How many people think this review is helpful: {data.helpful_vote}'
-        verified_purchase_part = 'Verified Purchase: Yes' if data.verified_purchase else 'Verified Purchase: No'
-        text_part = f'Review Content: {data.text}'
-        data.processed_text = f'{helpful_vote_part};{verified_purchase_part};{title_part};{text_part}'
+        title_text = text_preprocessing_pipeline(data.title)
+        text_text = text_preprocessing_pipeline(data.text)
+        data.processed_text = f'{title_text} [SEP] {text_text}'
         return data
+
+class MergeAllFeatureToText(ProcessedMethod):
+    def process_train(self, data: Data) -> Data:
+        title_part = f'This Review Title is {data.title}'
+        helpful_vote_part = f'{data.helpful_vote} people think this review is helpful'
+        verified_purchase_part = 'This reviewer did purchase it' if data.verified_purchase else 'This reviewer did not purchase it'
+        text_part = f'and the content is: {data.text}'
+        data.processed_text = f'{title_part} {text_part}.There are other information for this review, one is {verified_purchase_part} and the other is {helpful_vote_part}.'
+        return data
+
+    def process_test(self, data: Data) -> Data:
+        title_part = f'This Review Title is {data.title}'
+        helpful_vote_part = f'{data.helpful_vote} people think this review is helpful'
+        verified_purchase_part = 'This reviewer did purchase it' if data.verified_purchase else 'This reviewer did not purchase it'
+        text_part = f'and the content is: {data.text}'
+        data.processed_text = f'{title_part} {text_part}.There are other information for this review, one is {verified_purchase_part} and the other is {helpful_vote_part}.'
+        return data
+    
+class CleanMergeAllFeatureToText(ProcessedMethod):
+    def process_train(self, data: Data) -> Data:
+        title_text = text_preprocessing_pipeline(data.title)
+        text_text = text_preprocessing_pipeline(data.text)
+        title_part = f'this review title is: {title_text}'
+        helpful_vote_part = f'{data.helpful_vote} people think this review is helpful'
+        verified_purchase_part = 'this reviewer did purchase it' if data.verified_purchase else 'this reviewer did not purchase it'
+        text_part = f'and the content is: {text_text}'
+        data.processed_text = f'{title_part} {text_part}.there are other information for this review, one is {verified_purchase_part} and the other is {helpful_vote_part}.'
+        return data
+
+    def process_test(self, data: Data) -> Data:
+        title_text = text_preprocessing_pipeline(data.title)
+        text_text = text_preprocessing_pipeline(data.text)
+        title_part = f'this review title is: {title_text}'
+        helpful_vote_part = f'{data.helpful_vote} people think this review is helpful'
+        verified_purchase_part = 'this reviewer did purchase it' if data.verified_purchase else 'this reviewer did not purchase it'
+        text_part = f'and the content is: {text_text}'
+        data.processed_text = f'{title_part} {text_part}.there are other information for this review, one is {verified_purchase_part} and the other is {helpful_vote_part}.'
+        return data
+
     
 def get_processed_method(processed_method_flag: str) -> ProcessedMethod:
     if processed_method_flag == ONLY_TTITLE_AND_TEXT_FLAG:
         return OnlyTitleAndText()
     if processed_method_flag == MERGE_ALL_FEATURE_TO_TEXT_FLAG:
         return MergeAllFeatureToText()
+    if processed_method_flag == CLEAN_ONLY_TTITLE_AND_TEXT_FLAG:
+        return CleanOnlyTitleAndText()
+    if processed_method_flag == CLEAN_MERGE_ALL_FEATURE_TO_TEXT_FLAG:
+        return CleanMergeAllFeatureToText()
     raise ValueError(f'Invalid processed method flag: {processed_method_flag}')
 
 def read_train_json(json_path: str):
@@ -149,6 +192,6 @@ if __name__ == "__main__":
     args_parser.add_argument('--output_dir', type=str, required=True)
     args_parser.add_argument('--train_valid_ratio', type=float, required=True)
     args_parser.add_argument('--seed', type=int, default=42, required=True)
-    args_parser.add_argument('--processed_method', type=str, choices=[ONLY_TTITLE_AND_TEXT_FLAG, MERGE_ALL_FEATURE_TO_TEXT_FLAG], required=True)
+    args_parser.add_argument('--processed_method', type=str, choices=[ONLY_TTITLE_AND_TEXT_FLAG, MERGE_ALL_FEATURE_TO_TEXT_FLAG, CLEAN_ONLY_TTITLE_AND_TEXT_FLAG, CLEAN_MERGE_ALL_FEATURE_TO_TEXT_FLAG], required=True)
     args = args_parser.parse_args()
     main(args)
