@@ -24,6 +24,11 @@ It is a repository using product rating reviews to create a huggingface dataset 
     bash run.sh
     ```
 
+## Reminder
+
+1. The label is getting by rating value, which is from 1 to 5. But the label is from 0 to 4.
+2. If it is test dataset, the label is -1.
+
 ## Reference
 
 1. [Huggingface Datasets](https://huggingface.co/docs/datasets/)

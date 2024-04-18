@@ -96,7 +96,7 @@ def write_csv(data: list[Data], output_dir: str, file_name: str):
         f.write('index\ttext\tlabel\thelpful_vote\tverified_purchase')
         for d in data:
             f.write('\n')
-            f.write(f'{d.index}\t{d.processed_text}\t{d.rating}\t{d.helpful_vote}\t{d.verified_purchase}')
+            f.write(f'{d.index}\t{d.processed_text}\t{d.rating - 1}\t{d.helpful_vote}\t{d.verified_purchase}')
 
 def main(args: Namespace):
     set_seed(args.seed)
@@ -131,7 +131,7 @@ def main(args: Namespace):
     for index, d in enumerate(temp_data):
         test_data.append(Data(
             index=f'index_{index}',
-            rating=-1,
+            rating=0,
             title=d['title'],
             text=d['text'],
             helpful_vote=d['helpful_vote'],
