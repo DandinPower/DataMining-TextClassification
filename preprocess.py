@@ -93,10 +93,10 @@ def write_csv(data: list[Data], output_dir: str, file_name: str):
         os.system(f'rm -f {output_path}')
 
     with open(output_path, 'w') as f:
-        f.write('index\ttext\tlabel')
+        f.write('index\ttext\tlabel\thelpful_vote\tverified_purchase')
         for d in data:
             f.write('\n')
-            f.write(f'{d.index}\t{d.processed_text}\t{d.rating}')
+            f.write(f'{d.index}\t{d.processed_text}\t{d.rating}\t{d.helpful_vote}\t{d.verified_purchase}')
 
 def main(args: Namespace):
     set_seed(args.seed)
