@@ -4,7 +4,7 @@ OUTPUT_DIR="hf_datasets"
 TRAIN_VALID_RATIO=0.8
 SEED=42
 
-PROCESSED_METHOD="group_12_and_45_only_title_and_text"
+PROCESSED_METHOD="clean_merge_all_feature_to_text"
 # Available processed methods
 # 1. only_title_and_text
 # 2. clean_only_title_and_text
@@ -14,7 +14,7 @@ PROCESSED_METHOD="group_12_and_45_only_title_and_text"
 # 6. only_45_star_only_title_and_text
 # 7. group_12_and_45_only_title_and_text
 
-UPLOAD_NAME="review_group12and45onlytitleandtext"
+UPLOAD_NAME="review_cleanmergeallfeaturetotext"
 # Available upload names
 # 1. review_onlytitleandtext
 # 2. review_cleanonlytitleandtext

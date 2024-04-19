@@ -26,8 +26,8 @@ def main(args: Namespace):
 
     original_data = process_method.process_train_dataset(train_data)
     
-    random.shuffle(train_data)
-    train_data_len = int(len(train_data) * args.train_valid_ratio)
+    random.shuffle(original_data)
+    train_data_len = int(len(original_data) * args.train_valid_ratio)
     train_data = original_data[:train_data_len]
     valid_data = original_data[train_data_len:]
 
