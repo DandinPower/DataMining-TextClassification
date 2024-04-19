@@ -1,8 +1,8 @@
 from argparse import ArgumentParser, Namespace
-from datasets import load_dataset
+from datasets import load_dataset, Dataset
 
 def main(args: Namespace):
-    dataset = load_dataset(args.hf_folder)
+    dataset: Dataset = load_dataset(args.hf_folder)
     dataset.push_to_hub(args.upload_name)
     
 if __name__ == "__main__":

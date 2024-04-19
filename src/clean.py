@@ -1,7 +1,8 @@
 import emoji
 import re
-from bs4 import BeautifulSoup
 import string
+
+from bs4 import BeautifulSoup
 
 contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not", 
                        "didn't": "did not",  "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not", 
