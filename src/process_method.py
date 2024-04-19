@@ -29,12 +29,16 @@ class ProcessMethod(ABC):
 
 class OnlyTitleAndText(ProcessMethod):
     def process_train(self, data: Data) -> Data:
-        data.processed_text = f'{data.title} [SEP] {data.text}'
+        title_part = f'Review title is {data.title}' # try to fix the load_dataset will automatically filter some words
+        text_part = f'{data.text}'
+        data.processed_text = f'{title_part} [SEP] {text_part}'
         data.rating = data.rating - 1
         return data
 
     def process_test(self, data: Data) -> Data:
-        data.processed_text = f'{data.title} [SEP] {data.text}'
+        title_part = f'Review title is {data.title}' # try to fix the load_dataset will automatically filter some words
+        text_part = f'{data.text}'
+        data.processed_text = f'{title_part} [SEP] {text_part}'
         data.rating = data.rating - 1
         return data
     
@@ -78,13 +82,17 @@ class Only12StarOnlyTitleAndText(ProcessMethod):
         return mapping[rating]
     
     def process_train(self, data: Data) -> Data:
-        data.processed_text = f'{data.title} [SEP] {data.text}'
-        data.rating = self.get_transformed_rating(data.rating)
+        title_part = f'Review title is {data.title}' # try to fix the load_dataset will automatically filter some words
+        text_part = f'{data.text}'
+        data.processed_text = f'{title_part} [SEP] {text_part}'
+        data.rating = data.rating - 1
         return data
 
     def process_test(self, data: Data) -> Data:
-        data.processed_text = f'{data.title} [SEP] {data.text}'
-        data.rating = self.get_transformed_rating(data.rating)
+        title_part = f'Review title is {data.title}' # try to fix the load_dataset will automatically filter some words
+        text_part = f'{data.text}'
+        data.processed_text = f'{title_part} [SEP] {text_part}'
+        data.rating = data.rating - 1
         return data
     
     def process_train_dataset(self, data: list[Data]) -> list[Data]:
@@ -106,13 +114,17 @@ class Only45StarOnlyTitleAndText(ProcessMethod):
         return mapping[rating]
     
     def process_train(self, data: Data) -> Data:
-        data.processed_text = f'{data.title} [SEP] {data.text}'
-        data.rating = self.get_transformed_rating(data.rating)
+        title_part = f'Review title is {data.title}' # try to fix the load_dataset will automatically filter some words
+        text_part = f'{data.text}'
+        data.processed_text = f'{title_part} [SEP] {text_part}'
+        data.rating = data.rating - 1
         return data
 
     def process_test(self, data: Data) -> Data:
-        data.processed_text = f'{data.title} [SEP] {data.text}'
-        data.rating = self.get_transformed_rating(data.rating)
+        title_part = f'Review title is {data.title}' # try to fix the load_dataset will automatically filter some words
+        text_part = f'{data.text}'
+        data.processed_text = f'{title_part} [SEP] {text_part}'
+        data.rating = data.rating - 1
         return data
     
     def process_train_dataset(self, data: list[Data]) -> list[Data]:
@@ -134,13 +146,17 @@ class Group12and45OnlyTitleAndText(ProcessMethod):
         return mapping[rating]
     
     def process_train(self, data: Data) -> Data:
-        data.processed_text = f'{data.title} [SEP] {data.text}'
-        data.rating = self.get_transformed_rating(data.rating)
+        title_part = f'Review title is {data.title}' # try to fix the load_dataset will automatically filter some words
+        text_part = f'{data.text}'
+        data.processed_text = f'{title_part} [SEP] {text_part}'
+        data.rating = data.rating - 1
         return data
 
     def process_test(self, data: Data) -> Data:
-        data.processed_text = f'{data.title} [SEP] {data.text}'
-        data.rating = self.get_transformed_rating(data.rating)
+        title_part = f'Review title is {data.title}' # try to fix the load_dataset will automatically filter some words
+        text_part = f'{data.text}'
+        data.processed_text = f'{title_part} [SEP] {text_part}'
+        data.rating = data.rating - 1
         return data
     
     def process_train_dataset(self, data: list[Data]) -> list[Data]:

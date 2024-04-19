@@ -47,9 +47,7 @@ def main(args: Namespace):
             processed_text=None
         ))
 
-    print(len(test_data))
     test_data = process_method.process_test_dataset(test_data)
-    print(len(test_data))
 
     write_csv(test_data, args.output_dir, 'test.tsv')
 
