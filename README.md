@@ -29,6 +29,17 @@ It is a repository using product rating reviews to create a huggingface dataset 
 1. The label is getting by rating value, which is from 1 to 5. But the label is from 0 to 4.
 2. If it is test dataset, the label is -1.
 
+## Special Usage
+
+1. You can run the following scripts to show the distribution of the dataset and tokenized dataset.
+
+2. Modify the `analyze.sh` file.
+
+3. Run the following command.
+    ```bash
+    bash analyze.sh
+    ```
+
 ## Reference
 
 1. [Huggingface Datasets](https://huggingface.co/docs/datasets/)

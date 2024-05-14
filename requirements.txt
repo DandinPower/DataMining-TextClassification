@@ -2,3 +2,7 @@ datasets
 emoji
 lxml
 beautifulsoup4 
+transformers
+sentencepiece
+protobuf
+matplotlib
